@@ -20,6 +20,9 @@ grunt.loadNpmTasks('grunt-concat-in-order');
 ## The "concat_in_order" task
 
 ### Overview
+
+The `concat_in_order` task extracts declared required dependencies as well as provided modules/classes from your javascript (or any other text) files. Having this [dependency graph](http://en.wikipedia.org/wiki/Dependency_graph) the task will perform [topological sort](http://en.wikipedia.org/wiki/Topological_sorting) and concatenate file so that all modules will be put after their required dependencies.
+
 In your project's Gruntfile, add a section named `concat_in_order` to the data object passed into `grunt.initConfig()`.
 
 ```js
@@ -46,6 +49,73 @@ grunt.initConfig({
   }
 })
 ```
+### Sample
+Let's say you have 4 files in a `lib` directory
+
+- AUsingBaseBAndBaseA.js
+```
+/*start AUsingBaseBAndBaseA*/
+framwork.require('module.BaseB');
+framwork.require('module.BaseA');
+framework.declare('module.UsingBaseBAndBaseA');
+var forth = function fourthFunction(){};
+/*end AUsingBaseBAnddBaseA*/
+```
+
+- AUsingBaseA.js
+
+```js
+/*start AUsingBaseA*/
+framwork.require('module.BaseA');
+var second = function secondFunction(){};
+/*end AUsingBaseA*/
+```
+
+
+- BaseA.js
+
+```js
+/*start BaseA*/
+framework.declare('module.BaseA');
+var first = function firstFunction(){};
+/*end BaseA*/
+```
+
+- BaseBUsingBaseA.js
+
+```js
+/*start BaseBUsingBaseA*/
+framwork.require('module.BaseA');
+framework.declare('module.BaseBUsingBaseA');
+framework.declare('module.BaseB');
+var third = function thirdFunction(){};
+/*end  BaseBUsingBaseA*/
+```
+Given the above configuration the task will produce `build/concatenated.js` file with following content:
+
+```js
+/*start BaseA*/
+framework.declare('module.BaseA');
+var first = function firstFunction(){};
+/*end BaseA*/
+/*start BaseBUsingBaseA*/
+framwork.require('module.BaseA');
+framework.declare('module.BaseBUsingBaseA');
+framework.declare('module.BaseB');
+var third = function thirdFunction(){};
+/*end  BaseBUsingBaseA*/
+/*start AUsingBaseA*/
+framwork.require('module.BaseA');
+var second = function secondFunction(){};
+/*end AUsingBaseA*/
+/*start AUsingBaseBAndBaseA*/
+framwork.require('module.BaseB');
+framwork.require('module.BaseA');
+framework.declare('module.UsingBaseBAndBaseA');
+var forth = function fourthFunction(){};
+/*end AUsingBaseBAnddBaseA*/
+```
+
 <!---
 ### Options
 

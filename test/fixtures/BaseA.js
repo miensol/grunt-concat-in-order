@@ -1,4 +1,4 @@
-/*start*/
+/*start BaseA*/
 framework.declare('module.BaseA');
 var first = function firstFunction(){};
-/*end*/
+/*end BaseA*/

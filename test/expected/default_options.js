@@ -1,19 +1,20 @@
-/*start*/
+/*start BaseA*/
 framework.declare('module.BaseA');
 var first = function firstFunction(){};
-/*end*/
-/*start*/
+/*end BaseA*/
+/*start BaseBUsingBaseA*/
 framwork.require('module.BaseA');
 framework.declare('module.BaseBUsingBaseA');
 framework.declare('module.BaseB');
 var third = function thirdFunction(){};
-/*end*/
+/*end  BaseBUsingBaseA*/
+/*start AUsingBaseA*/
 framwork.require('module.BaseA');
-
 var second = function secondFunction(){};
-/*start*/
+/*end AUsingBaseA*/
+/*start AUsingBaseBAndBaseA*/
 framwork.require('module.BaseB');
 framwork.require('module.BaseA');
 framework.declare('module.UsingBaseBAndBaseA');
 var forth = function fourthFunction(){};
-/*end*/
+/*end AUsingBaseBAnddBaseA*/
