@@ -53,7 +53,7 @@ grunt.initConfig({
 Let's say you have 4 files in a `lib` directory
 
 - AUsingBaseBAndBaseA.js
-```
+```js
 /*start AUsingBaseBAndBaseA*/
 framwork.require('module.BaseB');
 framwork.require('module.BaseA');
