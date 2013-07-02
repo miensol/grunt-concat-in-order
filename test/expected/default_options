@@ -1,0 +1,19 @@
+/*start*/
+framework.declare('module.BaseA');
+var first = function firstFunction(){};
+/*end*/
+/*start*/
+framwork.require('module.BaseA');
+framework.declare('module.BaseBUsingBaseA');
+framework.declare('module.BaseB');
+var third = function thirdFunction(){};
+/*end*/
+framwork.require('module.BaseA');
+
+var second = function secondFunction(){};
+/*start*/
+framwork.require('module.BaseB');
+framwork.require('module.BaseA');
+framework.declare('module.UsingBaseBAndBaseA');
+var forth = function fourthFunction(){};
+/*end*/
