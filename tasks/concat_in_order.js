@@ -74,18 +74,29 @@ module.exports = function (grunt) {
             var message,
                 declaringItem = findItemDeclaring(requiredItem);
             if (!declaringItem) {
-                message = findItemsDeclaringIgnoreCase(requiredItem).join(', ');
-                throw "Dependency required in " + item.file + " does not exist: " + requiredItem + ".\nMaybe " + message;
+                message = findItemsDeclaringIgnoreCase(requiredItem).map(function(matching){
+                    return matching.declared.join(', ') + ' in ' + matching.file;
+                }).join(', ');
+                grunt.fail.fatal("Dependency required in " + item.file + " does not exist: " + requiredItem + ".\nMaybe " + message);
             }
 
             if (!visited[declaringItem.file]) {
                 ensureNoCycleExistsDfs(declaringItem, visited, graph);
             } else {
                 message = Object.keys(visited).join(', ');
-                throw "Cycle found! Current item is " + item.file + '\nVisited nodes are ' + message;
+                grunt.fail.fatal("Cycle found! Current item is " + item.file + '\nVisited nodes are ' + message);
             }
         });
         delete visited[item.file];
+    }, writeArray = function(array, prefix){
+        grunt.verbose.writeln(prefix +':');
+        if(array.length){
+            array.forEach(function(item){
+               grunt.verbose.writeln('\t' + item);
+            });
+        } else {
+            grunt.verbose.writeln('\tNo items.');
+        }
     };
 
     grunt.registerMultiTask('concat_in_order', 'Concatenates files in order', function () {
@@ -98,6 +109,9 @@ module.exports = function (grunt) {
                     var content = grunt.file.read(filepath),
                         required = options.extractRequired(filepath, content),
                         declared = options.extractDeclared(filepath, content);
+                    grunt.verbose.writeln('File %s', filepath);
+                    writeArray(required, 'required');
+                    writeArray(declared, 'declared');
                     return {
                         content: content,
                         file: path.normalize(filepath),
