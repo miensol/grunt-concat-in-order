@@ -31,7 +31,7 @@ exports.concat_in_order = {
     test.expect(1);
 
     var actual = grunt.file.read('tmp/default_options.js');
-    var expected = grunt.file.read('test/expected/default_options');
+    var expected = grunt.file.read('test/expected/default_options.js');
     test.equal(actual, expected, 'should concatenate files respecting file order');
 
     test.done();

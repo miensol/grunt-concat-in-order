@@ -32,16 +32,7 @@ module.exports = function(grunt) {
     concat_in_order: {
       default_options: {
         files: {
-          'tmp/default_options.js': ['test/fixtures/**/*.js']
-        }
-      },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!'
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+          'tmp/default_options.js': ['test/sources/**/*.js']
         }
       }
     },
