@@ -34,11 +34,11 @@ grunt.initConfig({
           this is a default function that extracts required dependencies/module names from file content
           (getMatches - function that pick groups from given regexp)
           extractRequired: function (filepath, filecontent) {
-              return this.getMatches(/require\(([^\)]+)\)/g, filecontent);
+            return this.getMatches(/require\(['"]([^'"]+)['"]/g, filecontent);
           },
           this is a default function that extracts declared modules names from file content
           extractDeclared: function (filepath, filecontent) {
-              return this.getMatches(/declare\(([^\)]+)\)/g, filecontent);
+            return this.getMatches(/declare\(['"]([^'"]+)['"]/g, filecontent);
           }
           */
       },

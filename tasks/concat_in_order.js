@@ -25,10 +25,10 @@ module.exports = function (grunt) {
             return matches;
         },
         extractRequired: function (filepath, filecontent) {
-            return this.getMatches(/require\(([^\)]+)\)/g, filecontent);
+            return this.getMatches(/require\(['"]([^'"]+)['"]/g, filecontent);
         },
         extractDeclared: function (filepath, filecontent) {
-            return this.getMatches(/declare\(([^\)]+)\)/g, filecontent);
+            return this.getMatches(/declare\(['"]([^'"]+)['"]/g, filecontent);
         }
     }, getExistingFiles = function (files) {
         return files.src.filter(function (filepath) {
@@ -77,7 +77,10 @@ module.exports = function (grunt) {
                 message = findItemsDeclaringIgnoreCase(requiredItem).map(function(matching){
                     return matching.declared.join(', ') + ' in ' + matching.file;
                 }).join(', ');
-                grunt.fail.fatal("Dependency required in " + item.file + " does not exist: " + requiredItem + ".\nMaybe " + message);
+                if(message.length){
+                    message = "\nMaybe " + message; 
+                }
+                grunt.fail.fatal("Dependency required in " + item.file + " does not exist: " + requiredItem + message);
             }
 
             if (!visited[declaringItem.file]) {
@@ -104,7 +107,7 @@ module.exports = function (grunt) {
         var options = this.options(defaultOptions);
 
         this.files.forEach(function (fileSet) {
-            grunt.log.writeln('Extracting dependencies from "' + fileSet.src + '".');
+            grunt.verbose.writeln('Extracting dependencies from "' + fileSet.src + '".');
             var depsTree = getExistingFiles(fileSet).map(function (filepath) {
                     var content = grunt.file.read(filepath),
                         required = options.extractRequired(filepath, content),
