@@ -8,7 +8,8 @@
 
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
+    var path = require('path');
 
     // Project configuration.
     grunt.initConfig({
@@ -44,6 +45,28 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/missing_options.js': ['test/missing/**/*.js']
                 }
+            },
+            filebased_options: {
+                files: {
+                    'tmp/filebased_options.js': ['test/filebased/AUsingBaseBAndBaseA.js']
+                },
+                options: {
+                    extractRequired: function(filepath, filecontent) {
+                        var workingdir = filepath.split('/');
+                        workingdir.pop();
+
+                        var deps = this.getMatches(/\*\s*@depend\s(.*\.js)/g, filecontent);
+                        deps.forEach(function(dep, i) {
+                            var dependency = workingdir.concat([dep]);
+                            deps[i] = path.join.apply(null, dependency);
+                        });
+                        return deps;
+                    },
+                    extractDeclared: function(filepath) {
+                        return [filepath];
+                    },
+                    fileBased: true
+                }
             }
         },
 
@@ -64,7 +87,7 @@ module.exports = function (grunt) {
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'concat_in_order:default_options', 'nodeunit']);
+    grunt.registerTask('test', ['clean', 'concat_in_order:default_options', 'concat_in_order:filebased_options', 'nodeunit']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);

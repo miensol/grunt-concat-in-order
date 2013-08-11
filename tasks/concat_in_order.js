@@ -78,7 +78,7 @@ module.exports = function (grunt) {
                     return matching.declared.join(', ') + ' in ' + matching.file;
                 }).join(', ');
                 if(message.length){
-                    message = "\nMaybe " + message; 
+                    message = "\nMaybe " + message;
                 }
                 grunt.fail.fatal("Dependency required in " + item.file + " does not exist: " + requiredItem + message);
             }
@@ -108,26 +108,41 @@ module.exports = function (grunt) {
 
         this.files.forEach(function (fileSet) {
             grunt.verbose.writeln('Extracting dependencies from "' + fileSet.src + '".');
-            var depsTree = getExistingFiles(fileSet).map(function (filepath) {
-                    var content = grunt.file.read(filepath),
-                        required = options.extractRequired(filepath, content),
-                        declared = options.extractDeclared(filepath, content);
-                    grunt.verbose.writeln('File %s', filepath);
-                    writeArray(required, 'required');
-                    writeArray(declared, 'declared');
-                    return {
-                        content: content,
-                        file: path.normalize(filepath),
-                        required: required,
-                        declared: declared
-                    };
-                }), ordered = [], current, countOfPreviouslySatisfiedDependencies,
+
+            var depsTree = [], ordered = [], current, countOfPreviouslySatisfiedDependencies,
                 previouslyDeclared = [],
                 previouslyDeclaredFilter = function (dep) {
                     return previouslyDeclared.filter(function (previous) {
                         return previous === dep;
                     }).length > 0;
                 };
+
+            getExistingFiles(fileSet).map(function extractAndAddDependencies(filepath) {
+                //do not process this file again if already added
+                if (depsTree.some(function(item) {
+                    return item.file === path.normalize(filepath);
+                })) {
+                    return;
+                }
+
+                var content = grunt.file.read(filepath),
+                    required = options.extractRequired(filepath, content),
+                    declared = options.extractDeclared(filepath, content);
+
+                grunt.verbose.writeln('File %s', filepath);
+                writeArray(required, 'required');
+                writeArray(declared, 'declared');
+                if (options.fileBased) {
+                    required.map(extractAndAddDependencies);
+                }
+
+                depsTree.push({
+                    content: content,
+                    file: path.normalize(filepath),
+                    required: required,
+                    declared: declared
+                });
+            });
 
             ensureNoCycleExists(depsTree);
 
