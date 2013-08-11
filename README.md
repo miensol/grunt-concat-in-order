@@ -118,7 +118,7 @@ var forth = function fourthFunction(){};
 ```
 
 ### Filebased
-You can enable automatic addition of files with the following example. (notice the filebased : true) This is the wa same way of declaring dependencies used by [juicer](https://github.com/cjohansen/juicer)
+You can enable automatic addition of files with the following example. (notice the onlyConcatRequiredFiles : true) This is the same way of declaring dependencies used by [juicer](https://github.com/cjohansen/juicer)
 
     files: {
         'dist/mybuild.js': ['js/src/main.js']
@@ -138,7 +138,7 @@ You can enable automatic addition of files with the following example. (notice t
         extractDeclared: function(filepath) {
             return [filepath];
         },
-        fileBased: true
+        onlyConcatRequiredFiles: true
     }
 
 This will declare all files a modules using their filenames. In main.js you will typically have these depend statements:

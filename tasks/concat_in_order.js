@@ -132,7 +132,7 @@ module.exports = function (grunt) {
                 grunt.verbose.writeln('File %s', filepath);
                 writeArray(required, 'required');
                 writeArray(declared, 'declared');
-                if (options.fileBased) {
+                if (options.onlyConcatRequiredFiles) {
                     required.map(extractAndAddDependencies);
                 }
 

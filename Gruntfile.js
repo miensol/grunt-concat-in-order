@@ -65,7 +65,7 @@ module.exports = function(grunt) {
                     extractDeclared: function(filepath) {
                         return [filepath];
                     },
-                    fileBased: true
+                    onlyConcatRequiredFiles: true
                 }
             }
         },
