@@ -157,6 +157,8 @@ If you want to add a file that isn't referenced anywhere you need to add it manu
         'dist/mybuild.js': ['js/src/main.js', 'js/src/unReferencedButWanted.js']
     },
 
+The option onlyConcatRequiredFiles will only work if files are declared and required with their actual filenames.
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
