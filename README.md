@@ -117,6 +117,48 @@ var forth = function fourthFunction(){};
 /*end AUsingBaseBAnddBaseA*/
 ```
 
+### Filebased
+You can enable automatic addition of files with the following example. (notice the onlyConcatRequiredFiles : true) This is the same way of declaring dependencies used by [juicer](https://github.com/cjohansen/juicer)
+
+    files: {
+        'dist/mybuild.js': ['js/src/main.js']
+    },
+    options: {
+        extractRequired: function(filepath, filecontent) {
+            var workingdir = filepath.split('/');
+            workingdir.pop();
+
+            var deps = this.getMatches(/\*\s*@depend\s(.*\.js)/g, filecontent);
+            deps.forEach(function(dep, i) {
+                var dependency = workingdir.concat([dep]);
+                deps[i] = path.join.apply(null, dependency);
+            });
+            return deps;
+        },
+        extractDeclared: function(filepath) {
+            return [filepath];
+        },
+        onlyConcatRequiredFiles: true
+    }
+
+This will declare all files a modules using their filenames. In main.js you will typically have these depend statements:
+
+    /**
+     * @depend ../lib/jquery.js
+     * @depend otherfile.js
+     * @depend calculator/add.js
+     */
+
+You only need to specify the main.js and the other dependencies will be added automatically. As well as their dependencies etc.
+
+If you want to add a file that isn't referenced anywhere you need to add it manually.
+
+    files: {
+        'dist/mybuild.js': ['js/src/main.js', 'js/src/unReferencedButWanted.js']
+    },
+
+The option onlyConcatRequiredFiles will only work if files are declared and required with their actual filenames.
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
