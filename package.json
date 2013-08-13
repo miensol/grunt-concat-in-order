@@ -1,7 +1,7 @@
 {
   "name": "grunt-concat-in-order",
   "description": "Concatenates files respecting declared, required dependencies order.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/miensol/grunt-concat-in-order",
   "author": {
     "name": "Piotr Mionskowski",
