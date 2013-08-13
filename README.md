@@ -117,7 +117,7 @@ var forth = function fourthFunction(){};
 /*end AUsingBaseBAnddBaseA*/
 ```
 
-### Filebased
+### File based
 You can enable automatic addition of files with the following example. (notice the onlyConcatRequiredFiles : true) This is the same way of declaring dependencies used by [juicer](https://github.com/cjohansen/juicer)
 
     files: {
@@ -141,7 +141,7 @@ You can enable automatic addition of files with the following example. (notice t
         onlyConcatRequiredFiles: true
     }
 
-This will declare all files a modules using their filenames. In main.js you will typically have these depend statements:
+This will declare all files as modules using their filenames. In main.js you will typically have these depend statements:
 
     /**
      * @depend ../lib/jquery.js
@@ -157,11 +157,11 @@ If you want to add a file that isn't referenced anywhere you need to add it manu
         'dist/mybuild.js': ['js/src/main.js', 'js/src/unReferencedButWanted.js']
     },
 
-The option onlyConcatRequiredFiles will only work if files are declared and required with their actual filenames.
+The option onlyConcatRequiredFiles will only work if modules are declared and required with their actual filenames.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
 
-- 0.1.4 - @mokkabonna added ability to concat only files that are required by some moule
+- 0.1.4 - @mokkabonna added ability to concat only files that are required by some module
