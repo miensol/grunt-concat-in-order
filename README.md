@@ -125,7 +125,7 @@ You can enable automatic addition of files with the following example. (notice t
     },
     options: {
         extractRequired: function(filepath, filecontent) {
-            var workingdir = filepath.split('/');
+            var workingdir = path.normalize(filepath).split(path.sep);
             workingdir.pop();
 
             var deps = this.getMatches(/\*\s*@depend\s(.*\.js)/g, filecontent);
