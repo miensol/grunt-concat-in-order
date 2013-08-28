@@ -164,4 +164,5 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- 0.1.6 - @mokkabonna updated documenation and fixed path splitting in sample
 - 0.1.4 - @mokkabonna added ability to concat only files that are required by some module
