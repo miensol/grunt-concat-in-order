@@ -65,7 +65,8 @@ module.exports = function(grunt) {
                     extractDeclared: function(filepath) {
                         return [filepath];
                     },
-                    onlyConcatRequiredFiles: true
+                    onlyConcatRequiredFiles: true,
+                    dependencyOutputPath: 'tmp/ordered_dependencies.json'
                 }
             }
         },

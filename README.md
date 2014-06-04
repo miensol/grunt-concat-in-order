@@ -39,7 +39,9 @@ grunt.initConfig({
           this is a default function that extracts declared modules names from file content
           extractDeclared: function (filepath, filecontent) {
             return this.getMatches(/declare\(['"]([^'"]+)['"]/g, filecontent);
-          }
+          },
+          this is an optional path which when declared will output JSON containing the ordered dependencies
+          dependencyOutputPath: '/build/ordered_dependencies.json'
           */
       },
       files: {

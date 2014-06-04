@@ -157,6 +157,13 @@ module.exports = function (grunt) {
                 }
             }
 
+            if (options.dependencyOutputPath) {
+                grunt.file.write(options.dependencyOutputPath, JSON.stringify(ordered.map(function(item) {
+                    return item.file;
+                })));
+                grunt.log.writeln('Dependency file "' + options.dependencyOutputPath + '" created.');
+            }
+
             grunt.file.write(fileSet.dest, ordered.map(function (item) {
                 return item.content;
             }).join(EOL));
