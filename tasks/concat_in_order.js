@@ -138,7 +138,7 @@ module.exports = function (grunt) {
 
                 depsTree.push({
                     content: content,
-                    file: path.normalize(filepath),
+                    file: path.resolve( path.normalize(filepath) ),
                     required: required,
                     declared: declared
                 });
