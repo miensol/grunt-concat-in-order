@@ -37,11 +37,15 @@ exports.concat_in_order = {
     test.done();
   },
   filebased_options : function(test) {
-    test.expect(1);
+    test.expect(2);
 
     var actual = grunt.file.read('tmp/filebased_options.js');
     var expected = grunt.file.read('test/expected/filebased_options.js');
     test.equal(actual, expected, 'should include files automatically when filebased');
+
+    var actualDependencies = grunt.file.read('tmp/ordered_dependencies.json');
+    var expectedDependencies = grunt.file.read('test/expected/ordered_dependencies.json');
+    test.equal(actualDependencies, expectedDependencies, 'should write the dependencies in order');
 
     test.done();
   }
