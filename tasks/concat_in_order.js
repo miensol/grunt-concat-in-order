@@ -14,6 +14,7 @@ var path = require('path'),
 module.exports = function (grunt) {
 
     var defaultOptions = {
+        banner: '',
         getMatches: function (regex, string, index) {
             var matches = [], match;
             if(arguments.length < 3){
@@ -157,7 +158,7 @@ module.exports = function (grunt) {
                 }
             }
 
-            grunt.file.write(fileSet.dest, ordered.map(function (item) {
+            grunt.file.write(fileSet.dest, options.banner + ordered.map(function (item) {
                 return item.content;
             }).join(EOL));
 

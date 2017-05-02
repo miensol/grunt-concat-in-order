@@ -31,6 +31,8 @@ grunt.initConfig({
     your_target: {
       options: {
           /*
+          this is the default banner prepended to the resulting file
+          banner: '',
           this is a default function that extracts required dependencies/module names from file content
           (getMatches - function that pick groups from given regexp)
           extractRequired: function (filepath, filecontent) {
