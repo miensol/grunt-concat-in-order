@@ -1,7 +1,7 @@
 {
   "name": "grunt-concat-in-order",
   "description": "Concatenates files respecting declared, required dependencies order.",
-  "version": "0.1.6",
+  "version": "0.3.0",
   "homepage": "https://github.com/miensol/grunt-concat-in-order",
   "author": {
     "name": "Piotr Mionskowski",
@@ -30,12 +30,12 @@
   "dependencies": {},
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-clean": "~0.4.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
-    "grunt": "~0.4.1"
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-nodeunit": "~0.4.0",
+    "grunt": ">=0.4.0"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": ">=0.4.0"
   },
   "keywords": [
     "gruntplugin",
