@@ -121,7 +121,7 @@ module.exports = function (grunt) {
             getExistingFiles(fileSet).map(function extractAndAddDependencies(filepath) {
                 //do not process this file again if already added
                 if (depsTree.some(function(item) {
-                    return item.file === path.normalize(filepath);
+                    return path.resolve(item.file) === path.resolve(path.normalize(filepath));
                 })) {
                     return;
                 }
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
 
                 depsTree.push({
                     content: content,
-                    file: path.normalize(filepath),
+                    file: path.resolve( path.normalize(filepath) ),
                     required: required,
                     declared: declared
                 });
