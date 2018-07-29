@@ -163,6 +163,11 @@ module.exports = function (grunt) {
             }).join(EOL));
 
             grunt.log.writeln('File "' + fileSet.dest + '" created.');
+
+            if (options.exportConcatenationOrder) {
+                grunt.file.write(options.exportConcatenationOrder, ordered.map(item => item.file).join("\n"));
+                grunt.log.writeln('Concatenation order exported to "' + options.exportConcatenationOrder + '".');
+            }
         });
     });
 

@@ -41,7 +41,9 @@ grunt.initConfig({
           this is a default function that extracts declared modules names from file content
           extractDeclared: function (filepath, filecontent) {
             return this.getMatches(/declare\(['"]([^'"]+)['"]/g, filecontent);
-          }
+          },
+          export the path of all concated files in their concatenation (newline seperated) to this file
+          exportConcatenationOrder: undefined
           */
       },
       files: {
