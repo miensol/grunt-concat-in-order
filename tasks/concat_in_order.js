@@ -15,6 +15,7 @@ module.exports = function (grunt) {
 
     var defaultOptions = {
         banner: '',
+        footer: '',
         getMatches: function (regex, string, index) {
             var matches = [], match;
             if(arguments.length < 3){
@@ -30,7 +31,8 @@ module.exports = function (grunt) {
         },
         extractDeclared: function (filepath, filecontent) {
             return this.getMatches(/declare\(['"]([^'"]+)['"]/g, filecontent);
-        }
+        },
+        processContent: undefined
     }, getExistingFiles = function (files) {
         return files.src.filter(function (filepath) {
             // Warn on and remove invalid source files (if nonull was set).
@@ -159,8 +161,8 @@ module.exports = function (grunt) {
             }
 
             grunt.file.write(fileSet.dest, options.banner + ordered.map(function (item) {
-                return item.content;
-            }).join(EOL));
+                return options.processContent ? options.processContent( item.content) : item.content;
+            }).join(EOL) +options.footer);
 
             grunt.log.writeln('File "' + fileSet.dest + '" created.');
         });
