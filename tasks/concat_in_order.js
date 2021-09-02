@@ -15,6 +15,7 @@ module.exports = function (grunt) {
 
     var defaultOptions = {
         banner: '',
+        footer: '',
         getMatches: function (regex, string, index) {
             var matches = [], match;
             if(arguments.length < 3){
@@ -30,7 +31,8 @@ module.exports = function (grunt) {
         },
         extractDeclared: function (filepath, filecontent) {
             return this.getMatches(/declare\(['"]([^'"]+)['"]/g, filecontent);
-        }
+        },
+        processContent: undefined
     }, getExistingFiles = function (files) {
         return files.src.filter(function (filepath) {
             // Warn on and remove invalid source files (if nonull was set).
@@ -121,7 +123,7 @@ module.exports = function (grunt) {
             getExistingFiles(fileSet).map(function extractAndAddDependencies(filepath) {
                 //do not process this file again if already added
                 if (depsTree.some(function(item) {
-                    return item.file === path.normalize(filepath);
+                    return path.resolve(item.file) === path.resolve(path.normalize(filepath));
                 })) {
                     return;
                 }
@@ -139,7 +141,7 @@ module.exports = function (grunt) {
 
                 depsTree.push({
                     content: content,
-                    file: path.normalize(filepath),
+                    file: path.resolve( path.normalize(filepath) ),
                     required: required,
                     declared: declared
                 });
@@ -159,8 +161,8 @@ module.exports = function (grunt) {
             }
 
             grunt.file.write(fileSet.dest, options.banner + ordered.map(function (item) {
-                return item.content;
-            }).join(EOL));
+                return options.processContent ? options.processContent( item.content) : item.content;
+            }).join(EOL) +options.footer);
 
             grunt.log.writeln('File "' + fileSet.dest + '" created.');
         });
